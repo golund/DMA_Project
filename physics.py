@@ -1,7 +1,7 @@
 import math
 
-
 positive_responses = ["yes", 'y']
+negative_responses = ["no", "n"]
 
 
 class Force:
@@ -303,7 +303,8 @@ def solve_time_kinematics():
             if known.acceleration is None:
                 known.acceleration = float(input("what is the acceleration if there is any (m/s^2) remember +/- for "
                                                  "direction"))
-            if known.final_velocity is not None or input("do you know the final velocity").lower() in positive_responses:
+            if known.final_velocity is not None or input(
+                    "do you know the final velocity").lower() in positive_responses:
                 final_velocity_defined = True
             else:
                 final_velocity_defined = False
@@ -419,8 +420,9 @@ def solve_work_change_in_velocity():
                     else:
                         if (known.net_force.magnitude is not None and (known.acceleration is not None or
                                                                        (known.initial_velocity is not None and
-                                                                        ((known.distance is not None and (known.time is
-                                                                        not None or known.final_velocity is not None))
+                                                                        ((known.distance is not None and
+                                                                          (known.time is not None or
+                                                                           known.final_velocity is not None))
                                                                          or (known.final_velocity is not None and
                                                                              known.time is not None))))) \
                                 or input("is force and either acceleration or time known").lower() \
@@ -463,7 +465,7 @@ def solve_final_velocity_kinematics():
             if known.acceleration is None:
                 if input("is acceleration known").lower() in positive_responses:
                     known.acceleration = float(input("what is the acceleration"))
-                elif (known.distance is not None and known.time is not None) or\
+                elif (known.distance is not None and known.time is not None) or \
                         input("Are distance and time known").lower() in positive_responses:
                     known.acceleration = solve_acceleration_kinematics()
             if known.time is not None or input("Is time known").lower() in positive_responses:
@@ -476,9 +478,9 @@ def solve_final_velocity_kinematics():
                 distance_defined = False
             if time_defined:
                 return final_velocity_formula_1()
-            if distance_defined:
+            elif distance_defined:
                 return final_velocity_formula_2()
-            if not time_defined and not distance_defined and input("Is average velocity known?").lower()\
+            elif not time_defined and not distance_defined and input("Is average velocity known?").lower() \
                     in positive_responses:
                 return final_velocity_formula_3()
             else:
@@ -540,11 +542,11 @@ def solve_initial_velocity_kinematics():
             distance_defined = True
         else:
             distance_defined = False
-        if known.final_velocity is not None or input("Is final velocity known?") == "yes":
+        if known.final_velocity is not None or input("Is final velocity known?").lower() in positive_responses:
             final_velocity_defined = True
         else:
             final_velocity_defined = False
-        if known.time is not None or input("Is time known?") == "yes":
+        if known.time is not None or input("Is time known?").lower() in positive_responses:
             time_defined = True
         else:
             time_defined = False
@@ -556,8 +558,8 @@ def solve_initial_velocity_kinematics():
             if time_defined and final_velocity_defined:
                 return initial_velocity_formula_3()
         else:
-            if (known.average_velocity is not None or input("Is average velocity known?") == "yes") \
-                    and final_velocity_defined:
+            if (known.average_velocity is not None or input("Is average velocity known?").lower() in
+                positive_responses) and final_velocity_defined:
                 return initial_velocity_formula_4()
             else:
                 print("Not enough information")
@@ -631,17 +633,18 @@ def solve_weight():
     while not finished:
         try:
             if known.mass is None:
-                if input("Is mass known?") == "yes":
+                if input("Is mass known?").lower() in positive_responses:
                     known.mass = float(input("What is mass (kg)"))
-                elif input("Are force net and acceleration or a couple other things about the objects motion known"):
+                elif input("Are force net and acceleration or a couple other things "
+                           "about the objects motion known").lower() in positive_responses:
                     known.mass = solve_mass_force_and_acceleration()
                 else:
                     print("Not enough information")
                     return None
             if known.g is None:
-                if input("Is the object on the earth's surface") == "yes":
+                if input("Is the object on the earth's surface").lower() in positive_responses:
                     known.g = 9.8
-                elif input("Is gravitational field strength known?"):
+                elif input("Is gravitational field strength known?").lower() in positive_responses:
                     known.g = float(input("What is gravitational field strength"))
                 else:
                     known.g = solve_g_universal_gravitation()
@@ -657,11 +660,16 @@ def solve_g_weight_and_mass():
             if known.weight.magnitude is None:
                 known.weight.magnitude = float(input("What is the weight? (N)"))
             if known.mass is None:
-                if (known.net_force.magnitude is not None and (known.acceleration is not None or (known.initial_velocity is not
-                    None and ((known.final_velocity is not None and (known.distance is not None or known.time is not
-                        None)) or (known.time is not None and known.distance is not None))))) or\
-                        input("Are net force and acceleration or a couple things that could be used" 
-                              "to find acceleration known") == "yes":
+                if (known.net_force.magnitude is not None and (known.acceleration is not None or
+                                                               (known.initial_velocity is not
+                                                                None and ((known.final_velocity is not None and (
+                                                                               known.distance is not None or known.time
+                                                                               is not
+                                                                               None)) or (
+                                                                                  known.time is not None and
+                                                                                  known.distance is not None))))) or \
+                        input("Are net force and acceleration or a couple things that could be used"
+                              "to find acceleration known").lower() in positive_responses:
                     known.mass = solve_mass_force_and_acceleration()
                 else:
                     return None
@@ -675,13 +683,14 @@ def solve_force_spring_k_and_compression():
     while not finished:
         try:
             if known.k is None:
-                if input("Is the spring constant known?") == "yes":
+                if input("Is the spring constant known?").lower() in positive_responses:
                     known.k = float(input("What is the spring constant? (N/m)"))
                 else:
                     print("Not enough information")
                     return None
             if known.compression is None:
-                if input("Is the amount that the spring has either stretched or compressed known?"):
+                if input("Is the amount that the spring has either stretched or compressed known?").lower() \
+                        in positive_responses:
                     known.compression = float(input("What is the compression/expansion (m)"))
                 else:
                     print("Not enough information")
@@ -696,13 +705,13 @@ def solve_k_force_spring_and_compression():
     while not finished:
         try:
             if known.spring_force.magnitude is None:
-                if input("Is the spring force known?") == "yes":
+                if input("Is the spring force known?").lower() in positive_responses:
                     known.spring_force.magnitude = float(input("What is the spring force? (N)"))
                 else:
                     print("Not enough information")
                     return None
             if known.compression is None:
-                if input("Is the amount of compression/expansion known") == "yes":
+                if input("Is the amount of compression/expansion known").lower() in positive_responses:
                     known.compression = float(input("What is the compression/expansion? (m)"))
                 else:
                     print("Not enough information")
@@ -717,13 +726,13 @@ def solve_compression_force_spring_and_k():
     while not finished:
         try:
             if known.spring_force.magnitude is None:
-                if input("Is the spring force known?") == "yes":
+                if input("Is the spring force known?").lower() in positive_responses:
                     known.spring_force.magnitude = float(input("What is the spring force (N)"))
                 else:
                     print("Not enough information")
                     return None
             if known.k is None:
-                if input("Is the spring constant known") == "yes":
+                if input("Is the spring constant known").lower() in positive_responses:
                     known.k = float(input("What is the spring constant? (N/m)"))
                 else:
                     print("Not enough information")
@@ -733,73 +742,66 @@ def solve_compression_force_spring_and_k():
             print("All values must be numbers")
 
 
-def solve_net_force_sum_of_forces():
-    finished = False
-    while not finished:
-        try:
-            if known.applied_force.presence or input("Is there an applied force") == "yes":
-                known.applied_force.presence = True
-                if known.applied_force.magnitude is None:
-                    temp = input("What is the applied force?")
-                    if temp == "?":
-                        known.applied_force.defined = False
-                    else:
-                        known.applied_force.magnitude = float(temp)
-                        known.applied_force.defined = True
-                else:
-                    known.applied_force.defined = True
-                known.applied_force.axis = input("What axis is the force acting on? (x or y)").lower()
-            if known.weight.presence or input("Is there a gravitational force on the object") ==
+# def solve_net_force_sum_of_forces():
+#     finished = False
+#     while not finished:
+#         try:
+#             if known.applied_force.presence or input("Is there an applied force").lower() in positive_responses:
+#                 known.applied_force.presence = True
+#                 if known.applied_force.magnitude is None:
+#                     temp = input("What is the applied force?")
+#                     if temp == "?":
+#                         known.applied_force.defined = False
+#                     else:
+#                         known.applied_force.magnitude = float(temp)
+#                         known.applied_force.defined = True
+#                 else:
+#                     known.applied_force.defined = True
+#                 known.applied_force.axis = input("What axis is the force acting on? (x or y)").lower()
+#             if known.weight.presence or input("Is there a gravitational force on the object").lower()\
+#                 in positive_responses
 
 
 def main():
-    solving_for = input("what do you need to solve for")
-    if solving_for == "Fnet":
+    solving_for = input("what do you need to solve for").lower()
+    if solving_for == "fnet":
         print("Fnet =", str(solve_force_net_mass_and_acceleration()) + "N")
     elif solving_for == "a" or solving_for == "acceleration":
-        use_force = input("are net force and mass known")
-        if use_force == "yes":
+        if input("Are net force and mass known").lower() in positive_responses:
             print("acceleration =", solve_acceleration_force_and_mass(), "m/s^2")
         else:
             known.acceleration = solve_acceleration_kinematics()
             if known.acceleration is not None:
                 print("acceleration =", known.acceleration, "m/s^2")
     elif solving_for == "mass" or solving_for == "m":
-        use_force = input("Are net force and acceleration known or do you have the net force and the information "
-                          "required to find acceleration (yes or no)")
-        if use_force == "yes":
+        if input("Are net force and acceleration known or do you have the net force and the information "
+                 "required to find acceleration?").lower() in positive_responses:
             known.mass = solve_mass_force_and_acceleration()
             if known.mass is not None:
                 print("mass =", known.mass, "kg")
-        else:
-            use_weight = input("is the weight known")
-            if use_weight == "yes":
-                print("mass =", solve_mass_weight(), "kg")
+        elif input("is the weight known").lower() in positive_responses:
+            print("mass =", solve_mass_weight(), "kg")
     elif solving_for == "distance" or solving_for == "d":
         known.distance = solve_distance_kinematics()
         print("distance =", known.distance, "meters")
-    elif solving_for == "The amount of time it takes for one object to catch up with another":
+    elif solving_for == "the amount of time it takes for one object to catch up with another":
         time = solve_catch_up()
         print("time =", time, "seconds")
     elif solving_for == "time" or solving_for == "t":
-        use_kinematics = input("do you want to use kinematics?")
-        if use_kinematics == "yes":
+        if input("do you want to use kinematics?").lower() in positive_responses:
             known.time = solve_time_kinematics()
             if known.time is not None:
                 print("time =", known.time, "seconds")
     elif solving_for == "Change in energy" or solving_for == "work" or solving_for == "W":
-        use_force_and_distance = input("Do you want to use Force and distance")
-        if use_force_and_distance == "yes":
+        if input("Do you want to use Force and distance").lower() in positive_responses:
             known.work = solve_work_force_and_distance()
             if known.work is not None:
                 print("work =", known.work, "joules")
-        else:
-            use_kinetic_energy = input("Do you want to use the difference in kinetic energy")
-            if use_kinetic_energy == "yes":
-                known.work = solve_work_change_in_velocity()
-                if known.work is not None:
-                    print("work =", known.work, "joules")
-    elif solving_for == "weight" or solving_for == "force of gravity" or solving_for == "Fg":
+        elif input("Do you want to use the difference in kinetic energy").lower() in positive_responses:
+            known.work = solve_work_change_in_velocity()
+            if known.work is not None:
+                print("work =", known.work, "joules")
+    elif solving_for == "weight" or solving_for == "force of gravity" or solving_for == "fg":
         known.weight = solve_weight()
         if known.weight is not None:
             print("Fg =", known.weight, "N")
@@ -807,12 +809,12 @@ def main():
 
 done = False
 while not done:
-    do_calculations = input("would you like to do some calculations (yes or no)")
+    do_calculations = input("would you like to do some calculations (yes or no)").lower()
     while do_calculations == "yes":
         known = Information(None, None, None, None, None, None, None, None, None, None, None, None)
         main()
-        do_calculations = input("would you like to continue (yes or no)")
-    if do_calculations == "no":
+        do_calculations = input("would you like to continue (yes or no)").lower()
+    if do_calculations in negative_responses:
         print("goodbye")
         done = True
     else:
